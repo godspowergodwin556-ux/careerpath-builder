@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .career-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .career-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .career-card.active {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 100%);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .career-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .career-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .career-card p {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .roadmap-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .roadmap-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .roadmap-title .badge {
+            background: #3b82f6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .roadmap-steps {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .roadmap-steps::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #3b82f6, #93c5fd);
+        }
+
+        .step {
+            margin-bottom: 30px;
+            position: relative;
+            animation: slideInLeft 0.5s ease backwards;
+        }
+
+        .step:nth-child(1) { animation-delay: 0.1s; }
+        .step:nth-child(2) { animation-delay: 0.2s; }
+        .step:nth-child(3) { animation-delay: 0.3s; }
+        .step:nth-child(4) { animation-delay: 0.4s; }
+        .step:nth-child(5) { animation-delay: 0.5s; }
+        .step:nth-child(6) { animation-delay: 0.6s; }
+        .step:nth-child(7) { animation-delay: 0.7s; }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 3px solid #3b82f6;
+            border-radius: 50%;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 12px;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .step-description {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-left: 40px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+        }
+
+        .duration {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-left: 12px;
+            font-weight: 500;
+        }
+
+        .skills-label {
+            display: inline-block;
+            color: #0f172a;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-left: 40px;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-left: 40px;
+            margin-bottom: 10px;
+        }
+
+        .skill-tag {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .resources-label {
+            display: inline-block;
+            color: #0f172a;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-left: 40px;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .resources-text {
+            margin-left: 40px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .career-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap-container {
+                padding: 24px;
+            }
+
+            .roadmap-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Career Roadmap Builder</h1>
+            <p>Choose your career goal and get a personalized learning path</p>
+        </div>
+
+        <div class="career-grid">
+            <div class="career-card" data-career="web3">
+                <div class="career-icon">⛓️</div>
+                <h3>Web3 Developer</h3>
+                <p>Master blockchain development, smart contracts, and decentralized applications</p>
+            </div>
+            <div class="career-card" data-career="frontend">
+                <div class="career-icon">🎨</div>
+                <h3>Frontend Engineer</h3>
+                <p>Build modern, responsive web applications with cutting-edge technologies</p>
+            </div>
+            <div class="career-card" data-career="analyst">
+                <div class="career-icon">📊</div>
+                <h3>Blockchain Analyst</h3>
+                <p>Analyze blockchain data, understand protocols, and make informed decisions</p>
+            </div>
+        </div>
+
+        <div class="roadmap-container" id="roadmapContainer">
+            <div class="empty-state">
+                <div class="empty-state-icon">🗺️</div>
+                <p>Select a career path above to see your personalized roadmap</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roadmaps = {
+            web3: {
+                title: "Web3 Developer",
+                steps: [
+                    {
+                        title: "JavaScript Fundamentals",
+                        description: "Master JavaScript ES6+, async/await, promises, and core programming concepts needed for blockchain development.",
+                        skills: ["ES6+ syntax", "Async/await", "Promises", "Object-oriented programming"],
+                        resources: "FreeCodeCamp, JavaScript.info, MDN Web Docs",
+                        duration: "2-3 weeks"
+                    },
+                    {
+                        title: "Blockchain Fundamentals",
+                        description: "Learn how blockchain works, understand distributed systems, hashing, cryptography, and consensus mechanisms.",
+                        skills: ["Blockchain basics", "Cryptography", "Consensus mechanisms", "Distributed systems"],
+                        resources: "Coinbase Learn, Blockchain.com resources, YouTube tutorials",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "Solidity Smart Contracts",
+                        description: "Start with Solidity fundamentals, learn contract structure, state variables, functions, and basic contract patterns.",
+                        skills: ["Solidity syntax", "Contract structure", "Variables & types", "Functions & events"],
+                        resources: "CryptoZombies, Solidity Docs, Remix IDE",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "Ethereum & Advanced Solidity",
+                        description: "Deep dive into Ethereum architecture, gas optimization, security best practices, and advanced contract patterns.",
+                        skills: ["Gas optimization", "Security patterns", "Libraries", "Interfaces"],
+                        resources: "OpenZeppelin docs, Ethereum docs, security audit guides",
+                        duration: "4-5 weeks"
+                    },
+                    {
+                        title: "Web3 Development Tools",
+                        description: "Learn Web3.js or Ethers.js, Hardhat development environment, contract testing, and deployment strategies.",
+                        skills: ["Web3.js/Ethers.js", "Hardhat", "Truffle", "Testing & deployment"],
+                        resources: "Hardhat docs, Web3.js guides, Ethers.js tutorials",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "DApp Frontend Development",
+                        description: "Build full-stack decentralized applications, integrate wallets, interact with smart contracts from frontend.",
+                        skills: ["React integration", "MetaMask/wallet integration", "Contract interaction", "Real-time updates"],
+                        resources: "Wagmi documentation, Ethers.js React examples",
+                        duration: "4-6 weeks"
+                    },
+                    {
+                        title: "Security & Production Deployment",
+                        description: "Study common vulnerabilities, security patterns, participate in audits, and learn from real-world exploits.",
+                        skills: ["Security auditing", "Vulnerability assessment", "Best practices", "Mainnet deployment"],
+                        resources: "OWASP, OpenZeppelin security guides, audit firms",
+                        duration: "3-4 weeks"
+                    }
+                ]
+            },
+            frontend: {
+                title: "Frontend Engineer",
+                steps: [
+                    {
+                        title: "HTML & CSS Fundamentals",
+                        description: "Master semantic HTML5, CSS layouts (Flexbox, Grid), responsive design, and CSS preprocessing tools.",
+                        skills: ["HTML5", "CSS3", "Flexbox", "CSS Grid", "Responsive design"],
+                        resources: "MDN Web Docs, CSS-Tricks, FreeCodeCamp",
+                        duration: "2-3 weeks"
+                    },
+                    {
+                        title: "JavaScript Essentials",
+                        description: "Learn JavaScript fundamentals, DOM manipulation, event handling, ES6+ features, and asynchronous programming.",
+                        skills: ["Variables & types", "Functions", "DOM manipulation", "Async/await", "Fetch API"],
+                        resources: "JavaScript.info, FreeCodeCamp, MDN Web Docs",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "React Fundamentals",
+                        description: "Understand React fundamentals: components, JSX, props, state, hooks, and component lifecycle.",
+                        skills: ["Components", "JSX", "Props & state", "Hooks", "React Router"],
+                        resources: "React official docs, Scrimba React course, React tutorials",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "State Management",
+                        description: "Learn Context API, Redux or Zustand for state management, and managing complex application state.",
+                        skills: ["Context API", "Redux/Zustand", "Middleware", "Selectors"],
+                        resources: "Redux docs, Zustand docs, Context API guide",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "Styling & Component Libraries",
+                        description: "Master CSS-in-JS, Tailwind CSS, Material-UI, and other component libraries for building polished interfaces.",
+                        skills: ["Tailwind CSS", "Styled-components", "CSS modules", "UI libraries"],
+                        resources: "Tailwind docs, Material-UI, component library documentation",
+                        duration: "2-3 weeks"
+                    },
+                    {
+                        title: "APIs & Backend Integration",
+                        description: "Work with REST APIs, GraphQL, API authentication, error handling, and data caching strategies.",
+                        skills: ["REST APIs", "GraphQL", "Authentication", "Error handling", "Data fetching"],
+                        resources: "REST API design, GraphQL docs, Axios/Fetch tutorials",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "Testing, Performance & Deployment",
+                        description: "Learn testing frameworks (Jest, React Testing Library), performance optimization, and deployment strategies.",
+                        skills: ["Unit testing", "Integration testing", "Performance optimization", "CI/CD", "Deployment"],
+                        resources: "Jest docs, React Testing Library, Vercel/Netlify guides",
+                        duration: "3-4 weeks"
+                    }
+                ]
+            },
+            analyst: {
+                title: "Blockchain Analyst",
+                steps: [
+                    {
+                        title: "Blockchain Fundamentals",
+                        description: "Understand blockchain technology, distributed systems, consensus mechanisms, and how different blockchains work.",
+                        skills: ["Blockchain basics", "Consensus mechanisms", "Wallet types", "Transaction mechanics"],
+                        resources: "Coinbase Learn, Investopedia, blockchain.com guides",
+                        duration: "2-3 weeks"
+                    },
+                    {
+                        title: "Cryptocurrency & Tokenomics",
+                        description: "Learn tokenomics, monetary policy, supply dynamics, market structure, and economic incentives in crypto.",
+                        skills: ["Tokenomics", "Supply models", "Incentive structures", "Market dynamics"],
+                        resources: "Token Terminal, Messari, crypto economics blogs",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "Data Analysis & SQL",
+                        description: "Master SQL, Python, pandas, data visualization tools, and blockchain explorers for on-chain analysis.",
+                        skills: ["SQL queries", "Python basics", "Pandas", "Data visualization", "Excel/Sheets"],
+                        resources: "SQL tutorial, Datacamp, Mode Analytics SQL course",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "On-Chain Metrics & Tools",
+                        description: "Learn key metrics: transaction volume, active addresses, holder distribution, network health indicators.",
+                        skills: ["Etherscan analysis", "Blockchain explorers", "Address clustering", "Fund flow tracking"],
+                        resources: "Etherscan tutorials, Nansen guides, Glassnode academy",
+                        duration: "2-3 weeks"
+                    },
+                    {
+                        title: "DeFi Protocol Analysis",
+                        description: "Analyze DeFi protocols, total value locked (TVL), yield farming, liquidity pools, and protocol mechanics.",
+                        skills: ["DeFi mechanisms", "TVL analysis", "Yield farming", "Risk assessment", "Smart contract reading"],
+                        resources: "DeFi Llama, Token Terminal, Dune Analytics",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "Smart Contract Auditing",
+                        description: "Learn to read smart contracts, identify vulnerabilities, understand audit reports, and security implications.",
+                        skills: ["Solidity reading", "Vulnerability identification", "Audit reports", "Security patterns"],
+                        resources: "OpenZeppelin security guides, audit firm reports",
+                        duration: "3-4 weeks"
+                    },
+                    {
+                        title: "Advanced Analytics & Research",
+                        description: "Develop research skills, create analytical reports, understand market trends, and present findings effectively.",
+                        skills: ["Research methodology", "Report writing", "Trend analysis", "Forecasting", "Storytelling"],
+                        resources: "Messari research, Galaxy Research, Medium crypto analysts",
+                        duration: "3-4 weeks"
+                    }
+                ]
+            }
+        };
+
+        const careerCards = document.querySelectorAll('.career-card');
+        const roadmapContainer = document.getElementById('roadmapContainer');
+        let selectedCareer = null;
+
+        function renderRoadmap(career) {
+            const roadmap = roadmaps[career];
+            let html = `
+                <div class="roadmap-title">
+                    ${career === 'web3' ? '⛓️' : career === 'frontend' ? '🎨' : '📊'}
+                    ${roadmap.title}
+                    <span class="badge">${roadmap.steps.length} STEPS</span>
+                </div>
+                <div class="roadmap-steps">
+            `;
+
+            roadmap.steps.forEach((step, index) => {
+                const skillsHtml = step.skills.map(skill => `<div class="skill-tag">${skill}</div>`).join('');
+                html += `
+                    <div class="step">
+                        <span class="step-number">${index + 1}</span>
+                        <span class="step-title">${step.title}</span>
+                        <span class="duration">~${step.duration}</span>
+                        <p class="step-description">${step.description}</p>
+                        <div class="skills-label">Key Skills:</div>
+                        <div class="skills-tags">${skillsHtml}</div>
+                        <div class="resources-label">Resources:</div>
+                        <div class="resources-text">${step.resources}</div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            roadmapContainer.innerHTML = html;
+        }
+
+        careerCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Remove active class from all cards
+                careerCards.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked card
+                card.classList.add('active');
+                
+                // Render roadmap
+                const career = card.dataset.career;
+                selectedCareer = career;
+                renderRoadmap(career);
+            });
+        });
+    </script>
+</body>
+</html>
